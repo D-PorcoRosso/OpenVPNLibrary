@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: C:\\Users\\Александр\\workspace\\Новая папка\\VPN\\src\\de\\blinkt\\openvpn\\api\\IOpenVPNAPIService.aidl
+ * Original file: C:\\Users\\FL\\Desktop\\New folder (5)\\OpenVPNAndroidLibrary\\src\\de\\blinkt\\openvpn\\api\\IOpenVPNAPIService.aidl
  */
 package de.blinkt.openvpn.api;
 public interface IOpenVPNAPIService extends android.os.IInterface

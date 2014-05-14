@@ -133,7 +133,7 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
         android.app.Notification.Builder nbuilder = new Notification.Builder(this);
 
         if (mProfile != null)
-            nbuilder.setContentTitle(getString(R.string.notifcation_title, mProfile.mName));
+            nbuilder.setContentTitle(getString(R.string.notifcation_title, "Connection"));
         else
             nbuilder.setContentTitle(getString(R.string.notifcation_title_notconnect));
 
@@ -313,8 +313,8 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
 
         mProfile = ProfileManager.get(this, profileUUID);
 
-        String startTitle = getString(R.string.start_vpn_title, mProfile.mName);
-        String startTicker = getString(R.string.start_vpn_ticker, mProfile.mName);
+        String startTitle = getString(R.string.start_vpn_title, "Connection");
+        String startTicker = getString(R.string.start_vpn_ticker, "Connection");
         showNotification(startTitle, startTicker,
                 false, 0, LEVEL_CONNECTING_NO_SERVER_REPLY_YET);
 
@@ -517,7 +517,7 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
         VpnStatus.logInfo(R.string.routes_info_excl, TextUtils.join(", ", mRoutes.getNetworks(false)),TextUtils.join(", ", mRoutesv6.getNetworks(false)));
         VpnStatus.logDebug(R.string.routes_debug, TextUtils.join(", ", positiveIPv4Routes), TextUtils.join(", ", positiveIPv6Routes));
 
-        String session = mProfile.mName;
+        String session = "Connection";
         if (mLocalIP != null && mLocalIPv6 != null)
             session = getString(R.string.session_ipv6string, session, mLocalIP, mLocalIPv6);
         else if (mLocalIP != null)
@@ -551,7 +551,7 @@ public class OpenVpnService extends VpnService implements StateListener, Callbac
                 VpnStatus.logError(R.string.tun_error_helpful);
             }
             return null;
-        }
+        } 
 
     }
 

@@ -117,8 +117,8 @@ public class LaunchVPN extends Activity {
 		entry.setTransformationMethod(new PasswordTransformationMethod());
 
 		AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-		dialog.setTitle("Need " + getString(type));
-		dialog.setMessage("Enter the password for profile " + mSelectedProfile.mName);
+		dialog.setTitle(getString(type));
+		dialog.setMessage("Enter the password for profile");
 
         if (type == R.string.password) {
             ((EditText)userpwlayout.findViewById(R.id.username)).setText(mSelectedProfile.mUsername);
@@ -205,9 +205,9 @@ public class LaunchVPN extends Activity {
 	}
 	void showLogWindow() {
 
-		Intent startLW = new Intent(getBaseContext(),LogWindow.class);
-		startLW.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-		startActivity(startLW);
+		//Intent startLW = new Intent(getBaseContext(),LogWindow.class);
+		//startLW.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+		//startActivity(startLW);
 
 	}
 

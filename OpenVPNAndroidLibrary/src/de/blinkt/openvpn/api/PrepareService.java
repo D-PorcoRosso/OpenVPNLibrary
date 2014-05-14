@@ -1,4 +1,4 @@
-package ru.drivepixels.openvpn;
+package de.blinkt.openvpn.api;
 
 import java.io.File;
 
@@ -9,13 +9,8 @@ import android.os.Environment;
 import de.blinkt.openvpn.LaunchVPN;
 import de.blinkt.openvpn.activities.ConfigConverter;
 import de.blinkt.openvpn.activities.DisconnectVPN;
-import de.blinkt.openvpn.api.FileUtilities;
 
-
-/**
- * Created by FL on 06.05.14.
- */
-public class OpenVPNHelper {
+public class PrepareService {
 	private FileUtilities fl;
 	private Intent startImport;
 	private File f;
@@ -23,17 +18,14 @@ public class OpenVPNHelper {
 	private static final int IMPORT_PROFILE = 231;
 	private Activity activi;
 	private File dir;
-	
-	public static String state = "";
+	private String mudf;
+
 	private Intent intent;
 
-	static public String udp = "";
-	
-
-	public OpenVPNHelper(Activity activity, String config) {
+	public PrepareService(Activity activity, String config, String udf) {
 		activi = activity;
 		mConfig = config;
-		
+		mudf = udf;
 		fl = new FileUtilities(activi);
 		startImport = new Intent(activi, ConfigConverter.class);
 		fl.write("conf.ovpn", mConfig);
@@ -44,10 +36,10 @@ public class OpenVPNHelper {
 		activi.startActivityForResult(startImport, IMPORT_PROFILE);
 	}
 
-	public void startVpn() {
+	public void startService() {
 		intent = new Intent(activi, LaunchVPN.class);
 		intent.setAction(Intent.ACTION_MAIN);
-		intent.putExtra(LaunchVPN.EXTRA_KEY, udp);
+		intent.putExtra(LaunchVPN.EXTRA_KEY, mudf);
 		activi.startActivity(intent);
 		if (f.exists() && dir.exists()) {
 			f.delete();
@@ -55,9 +47,8 @@ public class OpenVPNHelper {
 		}
 	}
 
-	public void disconnectVPN() {
+	public void desconnectService() {
 		Intent intent = new Intent(activi, DisconnectVPN.class);
 		activi.startActivity(intent);
 	}
-
 }

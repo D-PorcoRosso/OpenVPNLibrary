@@ -27,8 +27,56 @@ import java.util.Locale;
 import java.util.UnknownFormatConversionException;
 import java.util.Vector;
 
-public class VpnStatus {
+import ru.drivepixels.openvpn.OpenVPNHelper;
 
+public class VpnStatus {
+	public interface IStatusChanged{
+		void onStatusAuth();
+		void onStatusConnecting();
+		void onStatusWait();
+		void onStatusGetConfig();
+		void onStatusAssignIP();
+		void onStatusAddRoutes();
+		void onStatusConnected();
+		void onStatusDisconnected();
+		void onStatusReconnecting();
+		void onStatusExiting();
+		void onStatusResolve();
+		void onStatusTCPConnect();
+		
+	}
+	
+	/*private static int getLocalizedState(String state){
+		if (state.equals("CONNECTING")) 
+			return R.string.state_connecting;
+		else if (state.equals("WAIT"))
+			return R.string.state_wait;
+		else if (state.equals("AUTH"))
+			return R.string.state_auth;
+		else if (state.equals("GET_CONFIG"))
+			return R.string.state_get_config;
+		else if (state.equals("ASSIGN_IP"))
+			return R.string.state_assign_ip;
+		else if (state.equals("ADD_ROUTES"))
+			return R.string.state_add_routes;
+		else if (state.equals("CONNECTED"))
+			return R.string.state_connected;
+		else if (state.equals("DISCONNECTED"))
+			return R.string.state_disconnected;
+		else if (state.equals("RECONNECTING"))
+			return R.string.state_reconnecting;
+		else if (state.equals("EXITING"))
+			return R.string.state_exiting;
+		else if (state.equals("RESOLVE"))
+			return R.string.state_resolve;
+		else if (state.equals("TCP_CONNECT"))
+			return R.string.state_tcp_connect;
+		else
+			return R.string.unknown_state;
+
+	}*/
+	
+	private static IStatusChanged statusListener;
 
 	public static LinkedList<LogItem> logbuffer;
 
@@ -444,8 +492,49 @@ public class VpnStatus {
 
 	public static void updateStateString (String state, String msg) {
 		int rid = getLocalizedState(state);
+		if(statusListener!=null){
+			if(state.equals("CONNECTING")){
+				statusListener.onStatusConnected();
+			}
+			if(state.equals("WAIT")){
+				statusListener.onStatusWait();
+			}
+			if(state.equals("AUTH")){
+				statusListener.onStatusAuth();
+			}
+			if(state.equals("GET_CONFIG")){
+				statusListener.onStatusGetConfig();
+			}
+			if(state.equals("ASSIGN_IP")){
+				statusListener.onStatusAssignIP();
+			}
+			if(state.equals("ADD_ROUTES")){
+				statusListener.onStatusAddRoutes();
+			}
+			if(state.equals("CONNECTED")){
+				statusListener.onStatusConnected();;
+			}
+			if(state.equals("DISCONNECTED")){
+				statusListener.onStatusDisconnected();
+			}
+			if(state.equals("RECONNECTING")){
+				statusListener.onStatusReconnecting();
+			}
+			if(state.equals("EXITING")){
+				statusListener.onStatusExiting();
+			}
+			if(state.equals("RESOLVE")){
+				statusListener.onStatusResolve();
+			}
+			if(state.equals("TCP_CONNECT")){
+				statusListener.onStatusTCPConnect();
+			}
+		}
 		ConnectionStatus level = getLevel(state);
 		updateStateString(state, msg, rid, level);
+	}
+	public static void setListener(IStatusChanged statusChanged){
+		statusListener =statusChanged;
 	}
 
 	public synchronized static void updateStateString(String state, String msg, int resid, ConnectionStatus level) {

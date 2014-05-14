@@ -1,18 +1,23 @@
 package com.example.mypr;
 
 import ru.drivepixels.openvpn.OpenVPNHelper;
+import ru.drivepixels.openvpn.OpenVPNStatusListener;
 import android.app.Activity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
 	String text;
+	TextView textw;
 	Activity act;
- 
+	OpenVPNHelper helper;
+
 	protected void onCreate(android.os.Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.test);
 
+		textw = (TextView) findViewById(R.id.txt);
 		act = this;
 		text = "client\n"
 				+ "dev tun2\n"
@@ -97,8 +102,20 @@ public class MainActivity extends Activity {
 				+ "gm7SAhk379I6hr5NXdBbvTedlb1ULrhWV8lpwZ9HW2k=\n"
 				+ "-----END RSA PRIVATE KEY-----\n" + "</key>";
 
-		final OpenVPNHelper helper = new OpenVPNHelper(act, text);
+		helper = new OpenVPNHelper(act, text);
 
+		OpenVPNStatusListener stl = new OpenVPNStatusListener() {
+			@Override
+			public void onStatusAuth() {
+				act.runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						textw.setText("MYAuth");
+					}
+				});
+			}
+		};
 		Button end = (Button) findViewById(R.id.end);
 		end.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -116,5 +133,7 @@ public class MainActivity extends Activity {
 				helper.startVpn();
 			}
 		});
+
 	}
+
 }

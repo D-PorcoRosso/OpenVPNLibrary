@@ -102,7 +102,7 @@ public class ExternalOpenVPNService extends Service implements StateListener {
             List<APIVpnProfile> profiles = new LinkedList<APIVpnProfile>();
 
             for (VpnProfile vp : pm.getProfiles())
-                profiles.add(new APIVpnProfile(vp.getUUIDString(), vp.mName, vp.mUserEditable));
+                profiles.add(new APIVpnProfile(vp.getUUIDString(), "Connection", vp.mUserEditable));
 
             return profiles;
         }
